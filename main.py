@@ -15,6 +15,7 @@ def init_game():
 def handle_events():
     global user_defined_coordinates
     global user_drawings
+    global fill
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # Exit exc button
             return False
@@ -24,6 +25,13 @@ def handle_events():
             elif event.key == pygame.K_BACKSPACE: # remove last point
                 if user_defined_coordinates:
                     user_defined_coordinates.pop()
+                elif user_drawings: # Remove last picture
+                    del user_drawings[len(user_drawings) - 1]
+            elif event.key == pygame.K_f:
+                if fill:
+                    fill = False
+                else: 
+                    fill = True
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1: # New point
@@ -33,6 +41,10 @@ def handle_events():
                 user_defined_coordinates = []
             elif event.button == 3: # New Picture
                 if len(user_defined_coordinates) > 1:
+                    if fill:
+                        user_defined_coordinates.append(0)
+                    else:
+                        user_defined_coordinates.append(5)
                     user_drawings[len(user_drawings)] = user_defined_coordinates
                     user_defined_coordinates = []
                     print(user_drawings)
@@ -48,10 +60,14 @@ def main():
 
         if user_drawings: # Draw full pictures
             for image in user_drawings:
-                if len(user_drawings[image]) == 2:
+                if len(user_drawings[image]) == 3:
                     pygame.draw.line(screen, config.BLACK, user_drawings[image][0], user_drawings[image][1], 5)
-                elif len(user_drawings[image]) > 2:
-                    pygame.draw.polygon(screen, config.BLACK, user_drawings[image], 5)
+                elif len(user_drawings[image]) > 3:
+                    current_drawing = []
+                    for point in user_drawings[image]:
+                        if point != user_drawings[image][-1]:
+                            current_drawing.append(point)
+                    pygame.draw.polygon(screen, config.BLACK, current_drawing, user_drawings[image][-1])
 
         if user_defined_coordinates:
             for point in user_defined_coordinates:
@@ -66,5 +82,6 @@ def main():
 
 user_drawings = {}
 user_defined_coordinates = []
+fill = False
 if __name__ == '__main__':
     main()
