@@ -28,7 +28,6 @@ def handle_events():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1: # New point
                 user_defined_coordinates.append(pygame.mouse.get_pos())
-                print(user_defined_coordinates)
             elif event.button == 2: # Clear Board
                 user_drawings = {}
                 user_defined_coordinates = []
