@@ -16,13 +16,16 @@ def handle_events():
     global user_defined_coordinates
     global user_drawings
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT: # Exit exc button
             return False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
+            if event.key == pygame.K_ESCAPE: # Exit exc key
                 return False
+            elif event.key == pygame.K_BACKSPACE: # remove last point
+                if user_defined_coordinates:
+                    user_defined_coordinates.pop()
+
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print(event.button)
             if event.button == 1: # New point
                 user_defined_coordinates.append(pygame.mouse.get_pos())
                 print(user_defined_coordinates)
