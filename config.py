@@ -19,4 +19,4 @@ WINDOW_HEIGHT = 600
 TITLE = 'My Pygame Project'
 
 # Frame rate
-FPS = 60
+FPS = 1800
